@@ -1,0 +1,50 @@
+name: first
+
+# This step 
+on:  
+  push:
+    branches:
+      - main
+
+jobs:
+  # 
+  print_date_ubuntu:
+    name: Prints the date in ubuntu
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Print Ubuntu date
+        run: |
+          date
+
+  print_date_windows:
+    name: Prints the date in Windows
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Print Windows date
+        run: |
+          Get-Date
+      
+  print_date_macos:
+    name: Prints the date in Mac
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Print Macos date
+        run: |
+          date
+
+  print_dependency:
+    name: Prints at Conclusion
+    runs-on: macos-latest
+    needs: [ print_date_ubuntu, print_date_windows, print_date_macos ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Print completion message
+        run: |
+          echo "Completed!"
