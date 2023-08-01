@@ -1,4 +1,6 @@
 name: first
+env:
+  filename: 'my_file.txt'
 
 # This step 
 on:  
@@ -8,43 +10,18 @@ on:
 
 jobs:
   # 
-  print_date_ubuntu:
+  simple-artifact:
     name: Prints the date in ubuntu
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Print Ubuntu date
+      - name: Create file
         run: |
-          date
+          touch ${{filename}}
+      - name: Upload simple-artifact
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: simple
+          path: ./${{filename}}
 
-  print_date_windows:
-    name: Prints the date in Windows
-    runs-on: windows-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Print Windows date
-        run: |
-          Get-Date
-      
-  print_date_macos:
-    name: Prints the date in Mac
-    runs-on: macos-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Print Macos date
-        run: |
-          date
-
-  print_dependency:
-    name: Prints at Conclusion
-    runs-on: macos-latest
-    needs: [ print_date_ubuntu, print_date_windows, print_date_macos ]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Print completion message
-        run: |
-          echo "Completed!"
